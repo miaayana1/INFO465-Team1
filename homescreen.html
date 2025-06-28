@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Registration System - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #FF69B4 0%, #FF1493 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            text-align: center;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .welcome-banner {
+            background: white;
+            border: 2px solid #FF69B4;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .welcome-banner h2 {
+            color: #FF69B4;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .welcome-banner p {
+            color: #333;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .registration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .registration-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 0;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .registration-card:hover {
+            border-color: #FF69B4;
+            box-shadow: 0 4px 8px rgba(255, 105, 180, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            background: #FF69B4;
+            color: white;
+            padding: 1rem 1.5rem;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+            color: #FF69B4;
+        }
+
+        .card-description {
+            color: #555;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .card-features {
+            list-style: none;
+            text-align: left;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .card-features li {
+            margin-bottom: 0.5rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .card-features li::before {
+            content: "✓";
+            color: #FF69B4;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .info-section {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .info-section h3 {
+            color: #FF69B4;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+            border-bottom: 2px solid #FF69B4;
+            padding-bottom: 0.5rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-item-icon {
+            font-size: 2.5rem;
+            color: #FF69B4;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item h4 {
+            color: #333;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .info-item p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer p {
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb {
+            background: white;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #ddd;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            color: #FF69B4;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .main-container {
+                margin: 1rem auto;
+                padding: 0 0.5rem;
+            }
+
+            .welcome-banner {
+                padding: 1.5rem;
+            }
+
+            .welcome-banner h2 {
+                font-size: 1.6rem;
+            }
+
+            .registration-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .card-body {
+                padding: 1rem;
+            }
+
+            .info-section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>University Course Registration System</h1>
+        <p>Student Information Services Portal</p>
+    </header>
+
+    <nav class="breadcrumb">
+        <a href="#" onclick="return false;">Home</a> &gt; Course Registration Portal
+    </nav>
+
+    <div class="main-container">
+        <div class="welcome-banner">
+            <h2>Register Here</h2>
+            <p>Welcome to the Course Registration System. Select from the options below to manage your academic schedule, search for courses, or access instructor tools.</p>
+        </div>
+
+        <div class="registration-grid">
+            <a href="course-search.html" class="registration-card" onclick="handleNavigation('course-search')">
+                <div class="card-header">Course Search & Browse</div>
+                <div class="card-body">
+                    <span class="card-icon">🔍</span>
+                    <p class="card-description">Search and browse available courses by department, instructor, or course number.</p>
+                    <ul class="card-features">
+                        <li>Search by department or instructor</li>
+                        <li>View course details and prerequisites</li>
+                        <li>Check enrollment availability</li>
+                        <li>Course modality information</li>
+                    </ul>
+                </div>
+            </a>
+
+            <a href="student-registration.html" class="registration-card" onclick="handleNavigation('student-registration')">
+                <div class="card-header">Student Registration</div>
+                <div class="card-body">
+                    <span class="card-icon">👨‍🎓</span>
+                    <p class="card-description">Register, drop, or withdraw from classes. Manage your course schedule.</p>
+                    <ul class="card-features">
+                        <li>View enrolled sessions</li>
+                        <li>Register for new courses</li>
+                        <li>Drop or withdraw from classes</li>
+                        <li>Enrollment validation</li>
+                    </ul>
+                </div>
+            </a>
+
+            <a href="instructor-schedule.html" class="registration-card" onclick="handleNavigation('instructor-schedule')">
+                <div class="card-header">Instructor Schedule</div>
+                <div class="card-body">
+                    <span class="card-icon">👩‍🏫</span>
+                    <p class="card-description">Access teaching schedules and manage assigned course sessions.</p>
+                    <ul class="card-features">
+                        <li>View assigned sessions</li>
+                        <li>Access class rosters</li>
+                        <li>Manage course schedules</li>
+                        <li>Session enrollment reports</li>
+                    </ul>
+                </div>
+            </a>
+        </div>
+
+
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 University Course Registration System | Student Information Services</p>
+    </footer>
+
+    <script>
+        function handleNavigation(page) {
+            // Add a small delay to show the click effect
+            setTimeout(() => {
+                // In a real application, you would navigate to the actual page
+                alert(`Navigating to ${page.replace('-', ' ')} page...`);
+            }, 100);
+        }
+
+        // Add click effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.registration-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mousedown', function() {
+                    this.style.transform = 'translateY(0px)';
+                });
+                
+                card.addEventListener('mouseup', function() {
+                    this.style.transform = 'translateY(-2px)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
