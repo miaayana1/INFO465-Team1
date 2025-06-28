@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Student Registration</title>
+<style>
+    /* General Styling */
+    body {
+      color: hotpink;
+      font-family: Georgia, 'Times New Roman', Times, serif, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+    }
+
+    header {
+      background-color: hotpink;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 0px;
+    }
+
+    p.breadcrumb {
+      margin-top: 20px;
+      color: #555;
+    }
+
+    section {
+      margin-bottom: 40px;
+      border: 1px solid hotpink;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    h2, h3 {
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      background-color: hotpink;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+
+    .tab-bar {
+      display: flex;
+      border: 2px solid hotpink;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px;
+      background-color: hotpink;
+      color: white;
+      font-weight: bold;
+      cursor: default;
+      border-right: 1px solid white;
+    }
+
+    .tab:last-child {
+      border-right: none;
+    }
+
+    .results {
+      background-color: #fff0f5;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    footer {
+  background-color: #333;
+  color: #eee;
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.9em;
+  margin-top: 3rem;
+}
+</style>
+
+</head>
+<body>
+   <header>
+    <h1>University Course Registration System</h1>
+    <p>Student Information Services Portal</p>
+  </header>
+
+  <main>
+  <p class="breadcrumb"><a href="#">Home</a> &gt; Course Registration</p>
+  <nav class="tab-bar">
+  <div class="tab">Home</div>
+  <div class="tab">Course Search</div>
+  <div class="tab">Student Registration</div>
+  <div class="tab">Instructor Schedule</div>
+  <div class="tab">Session Enrollment</div>
+</nav>
+
+  </nav>
+
+  <section id="login-section">
+    <h2>Student Login</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+  </section>
+  
+  <section id="welcome-section" style="display:none;">
+    <h2 id="welcome-message"></h2>
+  </section>
+
+  <section id="enrolled-section" style="display:none;">
+    <h2>My Enrolled Courses</h2>
+    <ul id="enrolled-list"></ul>
+  </section>
+
+  <section id="register-section" style="display:none;">
+    <h2>Register for a New Course</h2>
+    <input type="text" id="course-code" placeholder="Course Code" />
+    <button onclick="registerCourse()">Register</button>
+    <p id="message" class="error"></p>
+  </section>
+
+  <script>
+    const enrolledCourses = [];
+    const MAX_COURSES = 3;
+    let currentUser = "";
+
+    function login() {
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value.trim();
+
+      if (user && pass) {
+        currentUser = user;
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('welcome-section').style.display = 'block';
+        document.getElementById('enrolled-section').style.display = 'block';
+        document.getElementById('register-section').style.display = 'block';
+
+        //welcome message at the top
+        document.getElementById('welcome-message').textContent = `Welcome, ${currentUser}!`;
+
+        updateEnrolledList();
+
+      } else {
+        alert("Enter both username and password.");
+      }
+    }
+
+    function updateEnrolledList() {
+      const list = document.getElementById('enrolled-list');
+      list.innerHTML = "";
+      enrolledCourses.forEach(course => {
+        const li = document.createElement('li');
+        li.textContent = course;
+        list.appendChild(li);
+      });
+    }
+
+    function registerCourse() {
+      const code = document.getElementById('course-code').value.trim();
+      const message = document.getElementById('message');
+      if (!code) {
+        message.textContent = "Enter a course code.";
+        return;
+      }
+      if (enrolledCourses.includes(code)) {
+        message.textContent = "You are already enrolled in this course.";
+        return;
+      }
+      if (enrolledCourses.length >= MAX_COURSES) {
+        message.textContent = "Enrollment limit reached.";
+        return;
+      }
+      enrolledCourses.push(code);
+      message.textContent = "";
+      updateEnrolledList();
+      document.getElementById('course-code').value = "";
+    }
+  </script>
+<footer>
+  &copy; 2025 University Course Registration System | Student Information Services
+</footer>
+</body>
+</html>
