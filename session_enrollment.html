@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -5,42 +6,122 @@
   <link rel="stylesheet" href="styles.css">
   <style>
     body {
-      color: hotpink;
       font-family: Georgia, 'Times New Roman', Times, serif;
-      margin: 10px;
+      margin: 0;
+      padding: 0;
+      color: hotpink;
+    }
+    header {
+      background-color: hotpink;
+      color: white;
+      text-align: center;
+      padding: 30px 0 10px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+    header p {
+      margin-top: 5px;
+      font-size: 14px;
     }
     nav {
-      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      background-color: white;
       padding: 10px;
       margin-bottom: 20px;
     }
     nav a {
-      margin-right: 15px;
+      background-color: hotpink;
+      color: white;
+      padding: 10px 15px;
+      margin: 0 5px;
       text-decoration: none;
       font-weight: bold;
+      border-radius: 6px;
+      border: 1px solid white;
+    }
+    nav a:hover {
+      background-color: #ff69b4;
+    }
+    .breadcrumb {
+      margin: 10px 20px;
       color: hotpink;
     }
-    section {
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      padding: 10px;
+    .login-box {
+      background-color: #fff;
+      padding: 20px;
+      border: 1px solid pink;
+      border-radius: 6px;
+      width: 400px;
+      margin: 20px auto;
+      color: hotpink;
     }
-    h2 {
-      margin-top: 0;
+    .login-box h2 {
+      color: hotpink;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0 15px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: hotpink;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      cursor: pointer;
+      border-radius: 3px;
     }
     table {
-      width: 100%;
+      width: 80%;
       border-collapse: collapse;
+      margin: 0 auto;
+      color: hotpink;
     }
     th, td {
       padding: 8px;
-      border: 1px solid #ccc;
+      border: 1px solid hotpink;
       text-align: left;
+    }
+    th {
+      background-color: hotpink;
+      color: white;
+    }
+    #enrollment-section {
+      display: none;
+      margin: 30px auto;
+      width: 90%;
+    }
+    footer {
+      margin-top: 30px;
+      background-color: #333;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+    h2, #enrollment-section p {
+      color: hotpink;
+      text-align: center;
+    }
+    #enrollment-section p strong {
+      color: hotpink;
     }
   </style>
 </head>
 <body>
-  <h1>Session Enrollment</h1>
+  <header>
+    <h1>University Course Registration System</h1>
+    <p>Student Information Services Portal</p>
+  </header>
+
+  <div class="breadcrumb">
+    <a href="home.html">Home</a> > Session Enrollment
+  </div>
 
   <nav>
     <a href="home.html">Home</a>
@@ -48,56 +129,53 @@
     <a href="student_registration.html">Student Registration</a>
     <a href="instructor_schedule.html">Instructor Schedule</a>
     <a href="session_enrollment.html">Session Enrollment</a>
-
   </nav>
 
-    <div class="login-box">
-    <p><strong>Access Level:</strong> Authorized Instructor</p>
-    <p><strong>Status:</strong> Logged In</p>
+  <div class="login-box" id="login-box">
+    <h2>Instructor Login</h2>
+    <input type="text" id="username" placeholder="Enter username">
+    <input type="password" id="password" placeholder="Enter password">
+    <button onclick="loginInstructor()">Login</button>
   </div>
-  
-  <p>Session: INFO 465 – Projects in Information Systems<br>
-     Time: M–Th, 10:30 AM – 12:45 PM<br>
-     Modality: Online via Zoom</p>
 
-  <section>
+  <section id="enrollment-section">
+    <h2>Session Enrollment</h2>
+    <p><strong>Course:</strong> INFO 465 – Projects in Information Systems</p>
+    <p><strong>Time:</strong> Monday–Thursday, 10:30 AM – 12:45 PM</p>
+    <p><strong>Modality:</strong> Online via Zoom</p>
+
     <h2>Enrolled Students</h2>
     <table>
       <thead>
         <tr>
-          <th>Last Name</th>
-          <th>First Name</th>
-          <th>Student ID</th>
-          <th>Major</th>
+          <th>Student Name</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Agurto</td>
-          <td>Keyla</td>
-          <td>100001</td>
-          <td>Information Systems</td>
-        </tr>
-        <tr>
-          <td>Avellanet</td>
-          <td>Mia</td>
-          <td>100002</td>
-          <td>Information Systems</td>
-        </tr>
-        <tr>
-          <td>McDowell</td>
-          <td>Belinda</td>
-          <td>100003</td>
-          <td>Information Systems</td>
-        </tr>
-        <tr>
-          <td>Sumter</td>
-          <td>Rebekah</td>
-          <td>100004</td>
-          <td>Information Systems</td>
-        </tr>
+        <tr><td>Agurto, Keyla</td></tr>
+        <tr><td>Avellanet, Mia</td></tr>
+        <tr><td>McDowell, Belinda</td></tr>
+        <tr><td>Sumter, Rebekah</td></tr>
       </tbody>
     </table>
   </section>
+
+  <footer>
+    © 2025 University Course Registration System | Student Information Services
+  </footer>
+
+  <script>
+    function loginInstructor() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      if (username === 'instructor' && password === '1234') {
+        document.getElementById('login-box').style.display = 'none';
+        document.getElementById('enrollment-section').style.display = 'block';
+      } else {
+        alert('Incorrect login. Try: instructor / 1234');
+      }
+    }
+  </script>
 </body>
-</html>'''
+</html>
