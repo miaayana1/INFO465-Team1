@@ -12,48 +12,48 @@
       padding: 0;
       background-color: #fff;
     }
-
     header {
       background-color: hotpink;
       color: white;
       text-align: center;
       padding: 20px;
     }
-
     main {
       max-width: 1000px;
       margin: auto;
       padding: 20px;
     }
-
     p.breadcrumb {
       margin-top: 20px;
       color: #555;
     }
-
+    p.breadcrumb a {
+      color: hotpink;
+      text-decoration: none;
+    }
+    p.breadcrumb a:hover {
+      text-decoration: underline;
+    }
     section {
       margin-bottom: 40px;
       border: 1px solid hotpink;
       padding: 20px;
       border-radius: 10px;
     }
-
     h2, h3 {
       margin-top: 0;
     }
-
     label {
       display: block;
       margin-top: 10px;
     }
-
     input {
       width: 100%;
       padding: 8px;
       margin-top: 5px;
       margin-bottom: 15px;
+      box-sizing: border-box;
     }
-
     button {
       background-color: hotpink;
       color: white;
@@ -63,7 +63,9 @@
       font-weight: bold;
       border-radius: 5px;
     }
-
+    button:hover {
+      background-color: #ff1493;
+    }
     .tab-bar {
       display: flex;
       border: 2px solid hotpink;
@@ -71,7 +73,6 @@
       overflow: hidden;
       margin-bottom: 20px;
     }
-
     .tab {
       flex: 1;
       text-align: center;
@@ -79,80 +80,132 @@
       background-color: hotpink;
       color: white;
       font-weight: bold;
-      cursor: default;
+      cursor: pointer;
       border-right: 1px solid white;
+      text-decoration: none;
+      display: block;
     }
-
     .tab:last-child {
       border-right: none;
     }
-
+    .tab:hover {
+      background-color: #ff1493;
+    }
+    .tab.active {
+      background-color: #ff1493;
+    }
     .results {
       background-color: #fff0f5;
       padding: 15px;
       border-radius: 8px;
     }
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 14px;
+      margin-top: 3rem;
+    }
   </style>
 </head>
 <body>
-
   <header>
     <h1>University Course Registration System</h1>
     <p>Student Information Services Portal</p>
   </header>
-
   <main>
-    <p class="breadcrumb"><a href="#">Home</a> &gt; Course Search</p>
-
-    <div class="tab-bar">
-      <div class="tab">Home</div>
-      <div class="tab">Course Search</div>
-      <div class="tab">Student Registration</div>
-      <div class="tab">Instructor Schedules</div>
-    </div>
+    <p class="breadcrumb"><a href="home1.html">Home</a> &gt; Course Search</p>
+    
+    <nav class="tab-bar">
+      <a href="home1.html" class="tab">Home</a>
+      <div class="tab active">Course Search</div>
+      <a href="student-registration.html" class="tab">Student Registration</a>
+      <a href="instructor-schedule.html" class="tab">Instructor Schedule</a>
+      <div class="tab">Session Enrollment</div>
+    </nav>
 
     <section>
       <h2>Course Search</h2>
       <form id="searchForm">
         <label for="department">Department</label>
-        <input type="text" id="department" name="department">
-
+        <input type="text" id="department" name="department" placeholder="e.g., INFO, CS, MATH">
+        
         <label for="instructor">Instructor</label>
-        <input type="text" id="instructor" name="instructor">
-
+        <input type="text" id="instructor" name="instructor" placeholder="e.g., Dr. Smith">
+        
         <label for="courseNumber">Course Number</label>
-        <input type="text" id="courseNumber" name="courseNumber">
-
+        <input type="text" id="courseNumber" name="courseNumber" placeholder="e.g., 465">
+        
         <button type="submit">Search</button>
       </form>
     </section>
+    
+    <section class="results" id="courseResults" style="display: none;">
+  <h3>Course Results</h3>
+  <div id="searchResults"></div>
+</section>
 
-    <section class="results" id="courseResults">
-      <h3>Course Results</h3>
-      <p><strong>Course:</strong> INFO 465 - Web Application Development</p>
-      <p><strong>Credit Hours:</strong> 3</p>
-      <p><strong>Prerequisites:</strong> INFO 350</p>
-      <p><strong>Modality:</strong> Online</p>
-      <p><strong>Max Enrollment:</strong> 30 students</p>
-    </section>
   </main>
 
   <script>
-    const form = document.getElementById("searchForm");
-    const resultsSection = document.getElementById("courseResults");
+  // Sample course data
+ const courses = [
+  { title: "Web App Dev", instructor: "Dr. Lee", department: "INFO", courseNumber: "465", modality: "Online", status: "Open" },
+  { title: "Database Mgmt", instructor: "Prof. Smith", department: "INFO", courseNumber: "350", modality: "Hybrid", status: "Waitlist" },
+  { title: "Calculus", instructor: "Dr. Johnson", department: "MATH", courseNumber: "203", modality: "In-person", status: "Closed" },
+  { title: "Writing I", instructor: "Dr. Brown", department: "ENG", courseNumber: "101", modality: "Online", status: "Open" }
+];
 
-    // Hide results by default
-    resultsSection.style.display = "none";
 
-    form.addEventListener("submit", function (event) {
-      event.preventDefault(); // Prevent actual form submission
-      resultsSection.style.display = "block";
-    });
-  </script>
-<footer style="background-color: #333; color: white; text-align: center; padding: 15px 0; font-size: 14px;">
-  © 2025 University Course Registration System | Student Information Services
-</footer>
+  const form = document.getElementById("searchForm");
+  const resultsContainer = document.getElementById("searchResults");
+  const courseResultsSection = document.getElementById("courseResults");
 
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const dept = document.getElementById("department").value.toLowerCase();
+    const instructor = document.getElementById("instructor").value.toLowerCase();
+    const courseNumber = document.getElementById("courseNumber").value.toLowerCase();
+
+const filtered = courses.filter(course => {
+  const matchesDept = !dept || course.department.toLowerCase().includes(dept);
+  const matchesInstructor = !instructor || course.instructor.toLowerCase().includes(instructor);
+  const matchesCourseNumber = !courseNumber || course.courseNumber.includes(courseNumber);
+  return matchesDept && matchesInstructor && matchesCourseNumber;
+});
+
+
+    resultsContainer.innerHTML = "";
+
+    if (filtered.length === 0) {
+      resultsContainer.innerHTML = "<p><em>No results found.</em></p>";
+    } else {
+      filtered.forEach(course => {
+        const div = document.createElement("div");
+        div.style.cssText = "border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 5px; background: white;";
+        div.innerHTML = `
+          <p><strong>Course:</strong> ${course.department} ${course.courseNumber} - ${course.title}</p>
+          <p><strong>Instructor:</strong> ${course.instructor}</p>
+          <p><strong>Modality:</strong> ${course.modality}</p>
+          <p><strong>Status:</strong> <span style="color: ${
+            course.status === "Open" ? "green" : course.status === "Waitlist" ? "orange" : "red"
+          }; font-weight: bold;">${course.status}</span></p>
+          <button style="margin-top: 10px;">View Details</button>
+        `;
+        resultsContainer.appendChild(div);
+      });
+    }
+
+    courseResultsSection.style.display = "block";
+    courseResultsSection.scrollIntoView({ behavior: "smooth" });
+  });
+</script>
+
+
+  <footer>
+    © 2025 University Course Registration System | Student Information Services
+  </footer>
 </body>
 </html>
-
