@@ -107,6 +107,45 @@
       font-size: 0.9em;
       margin-top: 3rem;
     }
+    .login-row {
+  display: flex;
+  align-items: center;
+}
+.remember-me {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; /* space before the button */
+}
+.remember-me input {
+  margin: 0;
+}
+.remember-me label {
+  margin: 0 0 0 8px;
+}
+button {
+  display: block;        /* full-width button? remove if you want auto-width */
+  margin-top: 0;         /* remove any extra top margin */
+}
+.remember-me-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px; /* space before error message */
+}
+.remember-me-row .remember-me {
+  margin: 0; /* override any extra margin */
+}
+.remember-me-row button {
+  margin: 0; /* align with the checkbox baseline */
+}
+/* ↓ Add this to your existing <style> block ↓ */
+
+.remember-me label {
+  display: inline-block;    /* don’t force a line break */
+  white-space: nowrap;      /* prevent wrapping inside the label */
+  margin-left: 8px;         /* space between checkbox and text */
+}
+
 </style>
 </head>
 <body>
@@ -125,11 +164,27 @@
       <div class="tab">Session Enrollment</div>
     </nav>
 
-    <section id="login-section">
-      <h2>Student Login</h2>
-      <input type="text" id="username" placeholder="Username" />
-      <input type="password" id="password" placeholder="Password" />
-      <button onclick="login()">Login</button>
+<section id="login-section">
+  <h2>Student Login</h2>
+
+  <input type="email" id="username" placeholder="you@example.com" />
+  <input type="password" id="password" placeholder="Password" />
+
+<!-- ↓ ADDED: checkbox + login button on one line ↓ -->
+<div class="remember-me-row">
+  <div class="remember-me">
+    <input type="checkbox" id="remember-me" />
+    <label for="remember-me">Remember Me</label>
+  </div>
+  <button onclick="login()">Login</button>
+</div>
+
+
+  <!-- Inline error message -->
+  <p id="login-error" class="error"></p>
+
+</section>
+
     </section>
     
     <section id="welcome-section" style="display:none;">
@@ -181,6 +236,16 @@
   </main>
 
   <script>
+    
+    // ↓ ADDED: prefill email & checkbox if remembered
+window.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('rememberedUser');
+  if (saved) {
+    document.getElementById('username').value = saved;
+    document.getElementById('remember-me').checked = true;
+  }
+});
+
     const enrolledCourses = [];
     const MAX_COURSES = 3;
     let currentUser = "";
@@ -277,22 +342,46 @@
 
   // Show search section on login
   function login() {
-    const user = document.getElementById('username').value.trim();
-    const pass = document.getElementById('password').value.trim();
+  const userEl     = document.getElementById('username');
+  const passEl     = document.getElementById('password');
+  const rememberEl = document.getElementById('remember-me');
+  const errEl      = document.getElementById('login-error');
 
-     if (user && pass) {
-      currentUser = user;
-      document.getElementById('login-section').style.display = 'none';
-      document.getElementById('welcome-section').style.display = 'block';
-      document.getElementById('enrolled-section').style.display = 'block';
-      document.getElementById('register-section').style.display = 'block';
-      document.getElementById('course-search-section').style.display = 'block';
-      document.getElementById('welcome-message').textContent = `Welcome, ${currentUser}! You can register for a course, or look through some of our frequently registered courses!`;
-      updateEnrolledList();
-    } else {
-      alert("Enter both username and password.");
-    }
+  const user     = userEl.value.trim();
+  const pass     = passEl.value.trim();
+  const remember = rememberEl.checked;
+
+  errEl.textContent = '';
+
+  // 1) Require both fields
+  if (!user || !pass) {
+    errEl.textContent = 'Please enter both email and password.';
+    return;
   }
+
+  // 2) Mock validation
+  const validUser = 'student@vcu.edu';
+  const validPass = '1234';
+  if (user !== validUser || pass !== validPass) {
+    errEl.textContent = 'Invalid email or password.';
+    return;
+  }
+
+  // 4) Remember Me persistence
+  if (remember) localStorage.setItem('rememberedUser', user);
+  else localStorage.removeItem('rememberedUser');
+
+  // 3) Reveal dashboard IN‑PAGE (no redirect)
+  document.getElementById('login-section').style.display      = 'none';
+  document.getElementById('welcome-section').style.display    = 'block';
+  document.getElementById('enrolled-section').style.display   = 'block';
+  document.getElementById('register-section').style.display   = 'block';
+  document.getElementById('course-search-section').style.display = 'block';
+  document.getElementById('welcome-message').textContent      = `Welcome, ${user}!`;
+
+  updateEnrolledList();
+}
+
 
   </script>
 
