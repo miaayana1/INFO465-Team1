@@ -5,6 +5,7 @@
   <title>Instructor Schedule</title>
   <link rel="stylesheet" href="styles.css">
   <style>
+    /* ——— Existing pink theme & layout ——— */
     body {
       font-family: Georgia, 'Times New Roman', Times, serif;
       margin: 0;
@@ -17,14 +18,8 @@
       text-align: center;
       padding: 30px 0 10px;
     }
-    header h1 {
-      margin: 0;
-      font-size: 28px;
-    }
-    header p {
-      margin-top: 5px;
-      font-size: 14px;
-    }
+    header h1 { margin: 0; font-size: 28px; }
+    header p  { margin-top: 5px; font-size: 14px; }
     nav {
       display: flex;
       justify-content: center;
@@ -42,13 +37,12 @@
       border-radius: 6px;
       border: 1px solid white;
     }
-    nav a:hover {
-      background-color: #ff69b4;
-    }
+    nav a:hover { background-color: #ff69b4; }
     .breadcrumb {
       margin: 10px 20px;
       color: hotpink;
     }
+
     .login-box {
       background-color: #fff;
       padding: 20px;
@@ -63,12 +57,36 @@
       font-size: 20px;
       margin-bottom: 10px;
     }
-    input[type="text"], input[type="password"] {
+    /* update to style email & password inputs */
+    input[type="email"],
+    input[type="password"] {
       width: 100%;
       padding: 8px;
       margin: 5px 0 15px;
       border: 1px solid #ccc;
+      box-sizing: border-box;
     }
+
+    
+
+    /* Align “Remember Me” */
+    .remember-me {
+      display: flex;
+      align-items: center;
+      margin: 5px 0 15px;
+    }
+    .remember-me input {
+      margin-right: 8px;
+      width: auto;
+    }
+
+    /* Inline error message */
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+
+    /* Schedule table & footer  */
     button {
       background-color: hotpink;
       color: white;
@@ -120,28 +138,39 @@
   </header>
 
   <div class="breadcrumb">
-    <a href="home.html">Home</a> > Instructor Schedule
+    <a href="Home1.html">Home</a> &gt; Instructor Schedule
   </div>
 
   <nav>
-    <a href="home.html">Home</a>
-    <a href="course_search.html">Course Search</a>
-    <a href="student_registration.html">Student Registration</a>
-    <a href="instructor_schedule.html">Instructor Schedule</a>
-    <a href="session_enrollment.html">Session Enrollment</a>
+    <a href="Home1.html">Home</a>
+    <a href="Course-search.html">Course Search</a>
+    <a href="student-registration.html">Student Registration</a>
+    <a href="instructor-schedule.html">Instructor Schedule</a>
+    <a href="session-enrollment.html">Session Enrollment</a>
   </nav>
 
   <div class="login-box" id="login-box">
     <h2>Instructor Login</h2>
-    <input type="text" id="username" placeholder="Enter username">
-    <input type="password" id="password" placeholder="Enter password">
+
+    <!-- 1) Email & password inputs -->
+    <input type="email" id="email" placeholder="Enter your email" />
+    <input type="password" id="password" placeholder="Enter password" />
+
+    <!-- 4) Remember Me checkbox -->
+    <div class="remember-me">
+      <input type="checkbox" id="remember-me" />
+      <label for="remember-me">Remember Me</label>
+    </div>
+
     <button onclick="loginInstructor()">Login</button>
+
+    <!-- 2) Inline error message -->
+    <p id="login-error" class="error"></p>
   </div>
 
   <section id="schedule-section">
     <h2>Instructor Schedule</h2>
-    <p><strong>Instructor:</strong> Dr. Michael McGarry </p>
-
+    <p><strong>Instructor:</strong> Dr. Michael McGarry</p>
     <table>
       <thead>
         <tr>
@@ -155,34 +184,68 @@
       </thead>
       <tbody>
         <tr>
-          <td>INFO 465 – Projects in Information Systems</td>
+          <td>INFO 465 – Projects in Information Systems</td>
           <td>001</td>
           <td>Monday–Thursday</td>
-          <td>10:30 AM – 12:45 PM</td>
+          <td>10:30 AM – 12:45 PM</td>
           <td>Online via Zoom</td>
-          <td>June 23 – July 24</td>
+          <td>June 23 – July 24</td>
         </tr>
       </tbody>
     </table>
   </section>
 
   <footer>
-    © 2025 University Course Registration System | Student Information Services
+    © 2025 University Course Registration System | Student Information Services
   </footer>
 
   <script>
-    function loginInstructor() {
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
-
-      if (username === 'instructor' && password === '1234') {
-        document.getElementById('login-box').style.display = 'none';
-        document.getElementById('schedule-section').style.display = 'block';
-      } else {
-        alert('Incorrect login. Try: instructor / 1234');
+    // Prefill email & checkbox if remembered
+    window.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem('rememberedInstructor');
+      if (saved) {
+        document.getElementById('email').value = saved;
+        document.getElementById('remember-me').checked = true;
       }
+    });
+
+    function loginInstructor() {
+      const emailEl    = document.getElementById('email');
+      const passEl     = document.getElementById('password');
+      const rememberEl = document.getElementById('remember-me');
+      const errEl      = document.getElementById('login-error');
+      const email      = emailEl.value.trim();
+      const pass       = passEl.value.trim();
+
+      errEl.textContent = '';
+
+      // 1) require both fields
+      if (!email || !pass) {
+        errEl.textContent = 'Please enter both email and password.';
+        return;
+      }
+
+      // 2) mock validation (replace with real API)
+      const validEmail = 'instructor@vcu.edu';
+      const validPass  = '1234';
+      if (email !== validEmail || pass !== validPass) {
+        errEl.textContent = 'Invalid email or password.';
+        return;
+      }
+
+      // 4) Remember Me persistence
+      if (rememberEl.checked) {
+        localStorage.setItem('rememberedInstructor', email);
+      } else {
+        localStorage.removeItem('rememberedInstructor');
+      }
+
+      // 3) reveal dashboard (no redirect)
+      document.getElementById('login-box').style.display        = 'none';
+      document.getElementById('schedule-section').style.display = 'block';
     }
   </script>
 </body>
 </html>
+
 
